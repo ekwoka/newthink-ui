@@ -8,7 +8,7 @@ devDependencies:
     specifier: 4.1.1
     version: 4.1.1(prettier@2.8.8)
   '@types/alpinejs':
-    specifier: ^3.7.1
+    specifier: 3.7.1
     version: 3.7.1
   '@types/node':
     specifier: 20.2.3
@@ -23,7 +23,7 @@ devDependencies:
     specifier: 0.31.1
     version: 0.31.1(vitest@0.31.1)
   alpinejs:
-    specifier: ^3.12.1
+    specifier: 3.12.1
     version: 3.12.1
   esbuild:
     specifier: 0.17.19
