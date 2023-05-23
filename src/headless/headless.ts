@@ -1,5 +1,5 @@
-import type { Alpine } from 'alpinejs/dist/alpine';
-import {
+import type { Alpine } from 'alpinejs';
+import type {
   DirectiveData,
   ElementWithXAttributes,
   Utilities,
