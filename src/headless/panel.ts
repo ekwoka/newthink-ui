@@ -4,9 +4,10 @@ type PanelState = {
   isOpen: boolean;
   open: () => void;
   close: () => void;
+  toggle: () => void;
 };
 
-const handleRoot: RootHandler<PanelState> = (el, directive, { Alpine }) => {
+const handleRoot: RootHandler<PanelState> = (el, _, { Alpine }) => {
   const panelState = Alpine.reactive({
     isOpen: false,
     open() {
@@ -15,10 +16,12 @@ const handleRoot: RootHandler<PanelState> = (el, directive, { Alpine }) => {
     close() {
       this.isOpen = false;
     },
+    toggle() {
+      return this.isOpen ? this.close() : this.open();
+    },
   });
 
   Alpine.bind(el, {
-    ':open': () => panelState.isOpen,
     'x-id': () => ['x-panel'],
   });
 
@@ -26,13 +29,13 @@ const handleRoot: RootHandler<PanelState> = (el, directive, { Alpine }) => {
 };
 
 export const panel = headless('panel', handleRoot, {
-  summary: (panelState, el, directive, { Alpine }) => {
+  summary: (panelState, el, _, { Alpine }) => {
     Alpine.bind(el, {
       ':aria-expanded': () => panelState.isOpen,
       ':aria-controls': '$id("x-panel")',
     });
   },
-  details: (panelState, el, directive, { Alpine }) => {
+  content: (panelState, el, _, { Alpine }) => {
     Alpine.bind(el, {
       'x-show': () => panelState.isOpen,
       'x-transition:enter': 'transition-transform',
