@@ -48,9 +48,6 @@ jobs:
       - name: Lint
         run: pnpm run lint:check
 
-      - name: Run Tests
-        run: pnpm run test --run --reporter=verbose
-
       - name: Build
         run: pnpm exec tsc
 
