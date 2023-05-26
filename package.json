@@ -47,7 +47,8 @@
     "vitest": "0.31.1"
   },
   "peerDependencies": {
-    "alpinejs": "^3.10.0"
+    "alpinejs": "^3.10.0",
+    "@alpinejs/focus": "^3.10.0"
   },
   "prettier": {
     "singleQuote": true,
