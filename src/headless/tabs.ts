@@ -10,6 +10,9 @@ export const tabs = headless(
       $focus: FocusMagic;
     } = Alpine.reactive({
       activeTab: 0,
+      isSelected($el: HTMLElement): boolean {
+        return this.tabs[this.activeTab] === $el;
+      },
       tabs: [] as HTMLElement[],
       panels: [] as HTMLElement[],
       $focus: evaluate('$focus') as FocusMagic,
