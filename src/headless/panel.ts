@@ -38,10 +38,6 @@ export const panel = headless('panel', handleRoot, {
   content: (panelState, el, _, { Alpine }) => {
     Alpine.bind(el, {
       'x-show': () => panelState.isOpen,
-      'x-transition:enter': 'transition-transform',
-      'x-transition:enter-start': 'translate-x-full',
-      'x-transition:leave': 'transition-transform',
-      'x-transition:leave-end': 'translate-x-full',
     });
   },
 });
