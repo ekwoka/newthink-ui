@@ -54,7 +54,7 @@ const handleAccordionGroup: RootHandler<GroupData> = (
 };
 
 export const accordionGroup: HeadlessComponent = (Alpine) =>
-  Alpine.directive('accordionGroup', handleAccordionGroup);
+  Alpine.directive('accordion-group', handleAccordionGroup);
 
 type AccordionData = {
   active: boolean;
@@ -63,14 +63,11 @@ const handleAccordionRoot: RootHandler<AccordionData> = (
   el,
   { modifiers: [initialState = 'closed'] },
   { Alpine }
-) => {
-  return (
-    getGroup(el, Alpine)?.addAccordion(initialState === 'open') ??
-    Alpine.reactive({
-      active: initialState === 'open',
-    })
-  );
-};
+) =>
+  getGroup(el, Alpine)?.addAccordion(initialState === 'open') ??
+  Alpine.reactive({
+    active: initialState === 'open',
+  });
 
 const controlForce = {
   open: true,
@@ -103,9 +100,6 @@ const handleAccordionContainer: HeadlessHandler<AccordionData> = (
   Alpine.bind(el, {
     'x-show': () => accordionData.active,
   });
-  Alpine.nextTick(() => {
-    el.style.display = '';
-  });
 };
 
 const accordionHandlers = {
@@ -118,4 +112,9 @@ export const accordion = headless(
   handleAccordionRoot,
   accordionHandlers
 );
-export default accordion;
+
+const accordions: HeadlessComponent = (Alpine) => {
+  accordionGroup(Alpine);
+  accordion(Alpine);
+};
+export default accordions;
