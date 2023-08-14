@@ -5,15 +5,17 @@ import type {
   Utilities,
 } from 'alpinejs/dist/types';
 
+import { AlpinePlugin } from '../types';
+
 export const headless = <T extends Record<string, unknown>>(
   name: string,
   rootHandler: RootHandler<T>,
-  handlers?: HeadlessHandlers<T>
-): HeadlessComponent => {
+  handlers?: HeadlessHandlers<T>,
+): AlpinePlugin => {
   const headlessMap = new WeakMap<ElementWithXAttributes, T>();
   return (Alpine: Alpine) => {
     const getHeadlessComponentState = (
-      el: ElementWithXAttributes
+      el: ElementWithXAttributes,
     ): T | void => {
       const root = Alpine.findClosest(el, headlessMap.has.bind(headlessMap));
       if (!root)
@@ -32,7 +34,7 @@ export const headless = <T extends Record<string, unknown>>(
         headlessState,
         el,
         directive,
-        utils
+        utils,
       );
     });
   };
@@ -44,7 +46,7 @@ const failback =
     console.error(
       `Alpine ${name}: Invalid directive value`,
       el,
-      directive.original
+      directive.original,
     );
   };
 
@@ -59,14 +61,12 @@ type HeadlessHandlers<T extends Record<string, unknown>> = Record<
 export type RootHandler<T> = (
   el: ElementWithXAttributes,
   directive: DirectiveData,
-  utilities: Utilities
+  utilities: Utilities,
 ) => T;
 
 export type HeadlessHandler<T> = (
   state: T,
   el: ElementWithXAttributes,
   directive: DirectiveData,
-  utilities: Utilities
+  utilities: Utilities,
 ) => void;
-
-export type HeadlessComponent = (Alpine: Alpine) => void;

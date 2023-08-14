@@ -30,6 +30,12 @@
       "rules": {
         "@typescript-eslint/no-explicit-any": "off"
       }
+    },
+    {
+      "files": ["*.*.ts"],
+      "rules": {
+        "filename-export/match-named-export": "off"
+      }
     }
   ]
 }

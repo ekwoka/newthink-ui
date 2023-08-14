@@ -1,11 +1,7 @@
 import { Alpine } from 'alpinejs';
 
-import {
-  HeadlessComponent,
-  HeadlessHandler,
-  RootHandler,
-  headless,
-} from './headless';
+import { AlpinePlugin } from '../types';
+import { HeadlessHandler, RootHandler, headless } from './headless';
 
 type GroupData = {
   active: number | null;
@@ -22,7 +18,7 @@ const getGroup = (el: HTMLElement, Alpine: Alpine) => {
 const handleAccordionGroup: RootHandler<GroupData> = (
   el,
   _,
-  { Alpine, effect }
+  { Alpine, effect },
 ) => {
   const groupData = Alpine.reactive({
     active: null as number | null,
@@ -53,7 +49,7 @@ const handleAccordionGroup: RootHandler<GroupData> = (
   return groupData;
 };
 
-export const accordionGroup: HeadlessComponent = (Alpine) =>
+export const accordionGroup: AlpinePlugin = (Alpine) =>
   Alpine.directive('accordion-group', handleAccordionGroup);
 
 type AccordionData = {
@@ -62,7 +58,7 @@ type AccordionData = {
 const handleAccordionRoot: RootHandler<AccordionData> = (
   el,
   { modifiers: [initialState = 'closed'] },
-  { Alpine }
+  { Alpine },
 ) =>
   getGroup(el, Alpine)?.addAccordion(initialState === 'open') ??
   Alpine.reactive({
@@ -81,7 +77,7 @@ const handleAccordionControl: HeadlessHandler<AccordionData> = (
   accordionData,
   el,
   { modifiers: [force = 'toggle'] },
-  { Alpine }
+  { Alpine },
 ) => {
   Alpine.bind(el, {
     'x-on:click': () => {
@@ -95,7 +91,7 @@ const handleAccordionContainer: HeadlessHandler<AccordionData> = (
   accordionData,
   el,
   _,
-  { Alpine }
+  { Alpine },
 ) => {
   Alpine.bind(el, {
     'x-show': () => accordionData.active,
@@ -110,10 +106,10 @@ const accordionHandlers = {
 export const accordion = headless(
   'accordion',
   handleAccordionRoot,
-  accordionHandlers
+  accordionHandlers,
 );
 
-const accordions: HeadlessComponent = (Alpine) => {
+export const accordions: AlpinePlugin = (Alpine) => {
   accordionGroup(Alpine);
   accordion(Alpine);
 };
