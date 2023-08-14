@@ -5,11 +5,13 @@ import type {
   Utilities,
 } from 'alpinejs/dist/types';
 
+import { AlpinePlugin } from '../types';
+
 export const headless = <T extends Record<string, unknown>>(
   name: string,
   rootHandler: RootHandler<T>,
   handlers?: HeadlessHandlers<T>,
-): HeadlessComponent => {
+): AlpinePlugin => {
   const headlessMap = new WeakMap<ElementWithXAttributes, T>();
   return (Alpine: Alpine) => {
     const getHeadlessComponentState = (
@@ -68,5 +70,3 @@ export type HeadlessHandler<T> = (
   directive: DirectiveData,
   utilities: Utilities,
 ) => void;
-
-export type HeadlessComponent = (Alpine: Alpine) => void;
