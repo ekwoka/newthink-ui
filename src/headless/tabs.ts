@@ -49,7 +49,7 @@ export const tabs = headless(
         ':aria-hidden': () => panelIndex !== tabGroup.activeTab,
       });
     },
-  }
+  },
 );
 
 type FocusMagic = {

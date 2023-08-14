@@ -22,7 +22,7 @@ const getGroup = (el: HTMLElement, Alpine: Alpine) => {
 const handleAccordionGroup: RootHandler<GroupData> = (
   el,
   _,
-  { Alpine, effect }
+  { Alpine, effect },
 ) => {
   const groupData = Alpine.reactive({
     active: null as number | null,
@@ -62,7 +62,7 @@ type AccordionData = {
 const handleAccordionRoot: RootHandler<AccordionData> = (
   el,
   { modifiers: [initialState = 'closed'] },
-  { Alpine }
+  { Alpine },
 ) =>
   getGroup(el, Alpine)?.addAccordion(initialState === 'open') ??
   Alpine.reactive({
@@ -81,7 +81,7 @@ const handleAccordionControl: HeadlessHandler<AccordionData> = (
   accordionData,
   el,
   { modifiers: [force = 'toggle'] },
-  { Alpine }
+  { Alpine },
 ) => {
   Alpine.bind(el, {
     'x-on:click': () => {
@@ -95,7 +95,7 @@ const handleAccordionContainer: HeadlessHandler<AccordionData> = (
   accordionData,
   el,
   _,
-  { Alpine }
+  { Alpine },
 ) => {
   Alpine.bind(el, {
     'x-show': () => accordionData.active,
@@ -110,7 +110,7 @@ const accordionHandlers = {
 export const accordion = headless(
   'accordion',
   handleAccordionRoot,
-  accordionHandlers
+  accordionHandlers,
 );
 
 const accordions: HeadlessComponent = (Alpine) => {
