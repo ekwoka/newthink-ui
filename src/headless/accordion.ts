@@ -1,4 +1,4 @@
-import { Alpine } from 'alpinejs';
+import type { Alpine } from 'alpinejs';
 
 import { AlpinePlugin } from '../types';
 import { HeadlessHandler, RootHandler, headless } from './headless';
