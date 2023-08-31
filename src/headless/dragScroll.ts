@@ -1,4 +1,4 @@
-import { headless } from './headless';
+import { AlpinePlugin } from '../types';
 
 const resizeCenterer = new ResizeObserver((entries) => {
   for (const entry of entries) {
@@ -14,9 +14,8 @@ const center = async (el: HTMLElement) => {
   el.scrollTop = (el.scrollHeight - el.clientHeight) / 2;
 };
 
-export const dragScroll = headless(
-  'dragscroll',
-  (el, { modifiers }, { cleanup }) => {
+export const dragScroll: AlpinePlugin = (Alpine) =>
+  Alpine.directive('dragscroll', (el, { modifiers }, { cleanup }) => {
     const autoCenter = modifiers.includes('center');
     registerDragScroll(el);
     if (autoCenter)
@@ -29,10 +28,7 @@ export const dragScroll = headless(
         resizeCenterer.unobserve(el),
       ),
     );
-
-    return {};
-  },
-);
+  });
 
 const preventStop = (e: Event) => {
   e.preventDefault();
