@@ -1,4 +1,4 @@
-import Alpine from 'alpinejs';
+import type { Alpine } from 'alpinejs';
 
 import { AlpinePlugin } from '../types';
 
@@ -14,7 +14,7 @@ export const screen: AlpinePlugin = (Alpine) => {
       );
       return false;
     }
-    const signal = getMediaSignal(breakSize);
+    const signal = getMediaSignal(breakSize, Alpine);
     return signal.value;
   });
 };
@@ -32,11 +32,11 @@ const defaultBreakpoints: Record<string, number> = {
 const breakpoints = defaultBreakpoints;
 const mediaSignals: Record<number, { value: boolean }> = {};
 
-const getMediaSignal = (breakpoint: number) => {
-  return mediaSignals[breakpoint] ?? createMediaSignal(breakpoint);
+const getMediaSignal = (breakpoint: number, Alpine: Alpine) => {
+  return mediaSignals[breakpoint] ?? createMediaSignal(breakpoint, Alpine);
 };
 
-const createMediaSignal = (breakpoint: number) => {
+const createMediaSignal = (breakpoint: number, Alpine: Alpine) => {
   const mediaMatch = window.matchMedia(`(min-width: ${breakpoint}px)`);
   const signal = Alpine.reactive({
     value: mediaMatch.matches,
