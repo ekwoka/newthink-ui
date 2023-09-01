@@ -14,19 +14,17 @@ const center = async (el: HTMLElement) => {
   el.scrollTop = (el.scrollHeight - el.clientHeight) / 2;
 };
 
+const forEach = Array.prototype.forEach;
+
 export const dragScroll: AlpinePlugin = (Alpine) =>
   Alpine.directive('dragscroll', (el, { modifiers }, { cleanup }) => {
     const autoCenter = modifiers.includes('center');
-    registerDragScroll(el);
-    if (autoCenter)
-      Array.prototype.forEach.call(el.children, (el: Element) =>
-        resizeCenterer.observe(el),
-      );
+    cleanup(registerDragScroll(el));
     el.classList.add('overscroll-contain', 'cursor-grab');
+    if (!autoCenter) return;
+    forEach.call(el.children, (el: Element) => resizeCenterer.observe(el));
     cleanup(() =>
-      Array.prototype.forEach.call(el.children, (el: Element) =>
-        resizeCenterer.unobserve(el),
-      ),
+      forEach.call(el.children, (el: Element) => resizeCenterer.unobserve(el)),
     );
   });
 
@@ -53,7 +51,7 @@ const registerDragScroll = (el: HTMLElement) => {
     el.classList.add('cursor-grab');
     await nextTick();
     document.removeEventListener('click', preventStop, true);
-    cancelEvents.map((event) =>
+    cancelEvents.forEach((event) =>
       document.removeEventListener(event, upHandler, {
         capture: true,
       }),
@@ -69,7 +67,7 @@ const registerDragScroll = (el: HTMLElement) => {
       '[&>*]:pointer-events-none',
     );
     document.addEventListener('pointermove', moveHandler, { capture: true });
-    cancelEvents.map((event) =>
+    cancelEvents.forEach((event) =>
       document.addEventListener(event, upHandler, {
         capture: true,
       }),
@@ -77,6 +75,7 @@ const registerDragScroll = (el: HTMLElement) => {
     document.addEventListener('click', preventStop, { capture: true });
   };
   el.addEventListener('pointerdown', downHandler);
+  return () => el.removeEventListener('pointerdown', downHandler);
 };
 
 const nextTick = () =>
