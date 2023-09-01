@@ -83,4 +83,5 @@ const nextTick = () =>
   new Promise((res) => queueMicrotask(() => setTimeout(res, 0)));
 
 const isTouch = (e: PointerEvent | MouseEvent | TouchEvent): e is TouchEvent =>
-  e instanceof TouchEvent;
+  e instanceof TouchEvent ||
+  (e instanceof PointerEvent && e.pointerType === 'touch');
