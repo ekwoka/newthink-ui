@@ -67,6 +67,7 @@ const touchUp = (ev: TouchEvent) => {
   const direction = getDirection(swipeData.start, { x: clientX, y: clientY });
   if (direction === SwipeDirection.None) return;
   swipeData.dispatch(direction);
+  delete swipeData.start;
 };
 
 const findNearest = <T extends HTMLElement>(
@@ -80,7 +81,7 @@ const findNearest = <T extends HTMLElement>(
 
 const getDirection = (start: TouchPosition, end: TouchPosition) => {
   const vector = [end.x - start.x, end.y - start.y];
-  if (vector.every((v) => Math.abs(v) < 25)) return SwipeDirection.None;
+  if (vector.every((v) => Math.abs(v) < 50)) return SwipeDirection.None;
   // normalize vector
   const magnitude = Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1]);
   const [x, y] = vector.map((v) => v / magnitude);
