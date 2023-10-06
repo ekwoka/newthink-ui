@@ -1,3 +1,5 @@
+import type { PluginCallback } from 'alpinejs';
+
 import {
   accordion,
   accordionGroup,
@@ -8,11 +10,10 @@ import {
   tabs,
 } from './headless';
 import { screen } from './magics';
-import type { AlpinePlugin } from './types';
 
-export const NTMagics: AlpinePlugin = (Alpine) => Alpine.plugin([screen]);
+export const NTMagics: PluginCallback = (Alpine) => Alpine.plugin([screen]);
 
-export const UI: AlpinePlugin = (Alpine) =>
+export const UI: PluginCallback = (Alpine) =>
   Alpine.plugin([accordions, dragScroll, panel, swipeDetect, tabs, NTMagics]);
 
 export default UI;
@@ -25,5 +26,5 @@ export {
   panel,
   tabs,
   screen,
-  AlpinePlugin,
+  PluginCallback,
 };
