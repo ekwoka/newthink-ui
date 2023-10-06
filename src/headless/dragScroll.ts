@@ -1,4 +1,4 @@
-import { AlpinePlugin } from '../types';
+import Alpine, { PluginCallback } from 'alpinejs';
 
 const resizeCenterer = new ResizeObserver((entries) => {
   for (const entry of entries) {
@@ -9,14 +9,14 @@ const resizeCenterer = new ResizeObserver((entries) => {
 });
 
 const center = async (el: HTMLElement) => {
-  await nextTick();
+  await Alpine.nextTick();
   el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
   el.scrollTop = (el.scrollHeight - el.clientHeight) / 2;
 };
 
 const forEach = Array.prototype.forEach;
 
-export const dragScroll: AlpinePlugin = (Alpine) =>
+export const dragScroll: PluginCallback = (Alpine) =>
   Alpine.directive('dragscroll', (el, { modifiers }, { cleanup }) => {
     const autoCenter = modifiers.includes('center');
     cleanup(registerDragScroll(el));
@@ -49,7 +49,7 @@ const registerDragScroll = (el: HTMLElement) => {
       '[&>*]:pointer-events-none',
     );
     el.classList.add('cursor-grab');
-    await nextTick();
+    await Alpine.nextTick();
     document.removeEventListener('click', preventStop, true);
     cancelEvents.forEach((event) =>
       document.removeEventListener(event, upHandler, {
@@ -77,9 +77,6 @@ const registerDragScroll = (el: HTMLElement) => {
   el.addEventListener('pointerdown', downHandler);
   return () => el.removeEventListener('pointerdown', downHandler);
 };
-
-const nextTick = () =>
-  new Promise((res) => queueMicrotask(() => setTimeout(res, 0)));
 
 const isTouch = (e: PointerEvent | MouseEvent | TouchEvent): e is TouchEvent =>
   e instanceof TouchEvent ||

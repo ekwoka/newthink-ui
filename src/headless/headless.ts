@@ -1,17 +1,15 @@
-import type { Alpine } from 'alpinejs';
+import type { Alpine, PluginCallback } from 'alpinejs';
 import type {
   DirectiveData,
+  DirectiveUtilities,
   ElementWithXAttributes,
-  Utilities,
-} from 'alpinejs/dist/types';
-
-import { AlpinePlugin } from '../types';
+} from 'alpinejs';
 
 export const headless = <T extends Record<string, unknown>>(
   name: string,
   rootHandler: RootHandler<T>,
   handlers?: HeadlessHandlers<T>,
-): AlpinePlugin => {
+): PluginCallback => {
   const headlessMap = new WeakMap<ElementWithXAttributes, T>();
   return (Alpine: Alpine) => {
     const getHeadlessComponentState = (
@@ -61,12 +59,12 @@ type HeadlessHandlers<T extends Record<string, unknown>> = Record<
 export type RootHandler<T> = (
   el: ElementWithXAttributes,
   directive: DirectiveData,
-  utilities: Utilities,
+  utilities: DirectiveUtilities,
 ) => T;
 
 export type HeadlessHandler<T> = (
   state: T,
   el: ElementWithXAttributes,
   directive: DirectiveData,
-  utilities: Utilities,
+  utilities: DirectiveUtilities,
 ) => void;

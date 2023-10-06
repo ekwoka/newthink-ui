@@ -1,8 +1,6 @@
-import type { Alpine } from 'alpinejs';
+import type { Alpine, PluginCallback } from 'alpinejs';
 
-import { AlpinePlugin } from '../types';
-
-export const screen: AlpinePlugin = (Alpine) => {
+export const screen: PluginCallback = (Alpine) => {
   Alpine.magic('screen', () => (breakpoint: string | number) => {
     const breakSize =
       typeof breakpoint === 'number'
@@ -18,6 +16,13 @@ export const screen: AlpinePlugin = (Alpine) => {
     return signal.value;
   });
 };
+
+declare module 'alpinejs' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export interface Magics<T> {
+    screen: (breakpoint: string | number) => boolean;
+  }
+}
 
 // Configuration
 const defaultBreakpoints: Record<string, number> = {

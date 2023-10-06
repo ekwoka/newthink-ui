@@ -1,6 +1,5 @@
-import type { Alpine } from 'alpinejs';
+import type { Alpine, PluginCallback } from 'alpinejs';
 
-import { AlpinePlugin } from '../types';
 import { HeadlessHandler, RootHandler, headless } from './headless';
 
 type GroupData = {
@@ -49,7 +48,7 @@ const handleAccordionGroup: RootHandler<GroupData> = (
   return groupData;
 };
 
-export const accordionGroup: AlpinePlugin = (Alpine) =>
+export const accordionGroup: PluginCallback = (Alpine) =>
   Alpine.directive('accordion-group', handleAccordionGroup);
 
 type AccordionData = {
@@ -109,7 +108,7 @@ export const accordion = headless(
   accordionHandlers,
 );
 
-export const accordions: AlpinePlugin = (Alpine) => {
+export const accordions: PluginCallback = (Alpine) => {
   accordionGroup(Alpine);
   accordion(Alpine);
 };

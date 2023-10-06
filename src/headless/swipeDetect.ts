@@ -1,6 +1,4 @@
-import type { ElementWithXAttributes } from 'alpinejs/dist/types';
-
-import type { AlpinePlugin } from '../types';
+import type { ElementWithXAttributes, PluginCallback } from 'alpinejs';
 
 type TouchPosition = {
   x: number;
@@ -22,7 +20,7 @@ enum SwipeDirection {
 
 const swipableMap = new WeakMap<ElementWithXAttributes, SwipableData>();
 const hasSwipe = swipableMap.has.bind(swipableMap);
-export const swipeDetect: AlpinePlugin = (Alpine) =>
+export const swipeDetect: PluginCallback = (Alpine) =>
   Alpine.directive('swipe', (el, _, { cleanup }) => {
     const swipeData: SwipableData = {
       dispatch: (dir) => {
