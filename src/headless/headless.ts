@@ -18,7 +18,7 @@ export const headless = <T extends Record<string, unknown>>(
       const root = Alpine.findClosest(el, headlessMap.has.bind(headlessMap));
       if (!root)
         return console.error(`Could not find root for ${name} component`, el);
-      return headlessMap.get(root);
+      if (root instanceof HTMLElement) return headlessMap.get(root);
     };
 
     Alpine.magic(name, (el) => getHeadlessComponentState(el));

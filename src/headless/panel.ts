@@ -38,6 +38,7 @@ export const panel = headless('panel', handleRoot, {
   content: (panelState, el, _, { Alpine }) => {
     Alpine.bind(el, {
       'x-show': () => panelState.isOpen,
+      ':id': () => '$id("x-panel")',
     });
   },
 });

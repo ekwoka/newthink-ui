@@ -1,6 +1,6 @@
 {
   "name": "@newthink/ui",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Simple Alpine Headless UI Components",
   "author": {
     "name": "Eric Kwoka",
@@ -42,24 +42,24 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "4.2.0",
-    "@types/alpinejs": "3.13.2",
-    "@types/alpinejs__focus": "3.13.1",
-    "@types/node": "20.8.2",
+    "@trivago/prettier-plugin-sort-imports": "5.2.2",
+    "@types/alpinejs": "3.13.11",
+    "@types/alpinejs__focus": "3.13.4",
+    "@types/node": "24.0.0",
     "@typescript-eslint/eslint-plugin": "6.7.4",
     "@typescript-eslint/parser": "6.7.4",
-    "@vitest/coverage-c8": "0.32.1",
-    "esbuild": "0.19.4",
+    "@vitest/coverage-c8": "0.33.0",
+    "esbuild": "0.25.5",
     "eslint": "8.50.0",
     "eslint-plugin-filename-export": "1.0.4",
     "husky": "8.0.3",
-    "lint-staged": "14.0.1",
-    "prettier": "3.0.3",
-    "pretty-bytes": "6.1.1",
-    "typescript": "5.2.2",
-    "vite": "4.4.11",
-    "vite-tsconfig-paths": "4.2.1",
-    "vitest": "0.34.6"
+    "lint-staged": "16.1.0",
+    "prettier": "3.5.3",
+    "pretty-bytes": "7.0.0",
+    "typescript": "5.8.3",
+    "vite": "6.3.5",
+    "vite-tsconfig-paths": "5.1.4",
+    "vitest": "3.2.3"
   },
   "peerDependencies": {
     "@alpinejs/focus": "^3.10.0",
@@ -92,6 +92,9 @@
   "pnpm": {
     "overrides": {
       "typescript@<5.1.6": "^5.1.6"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

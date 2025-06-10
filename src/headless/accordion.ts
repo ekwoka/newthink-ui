@@ -11,7 +11,7 @@ const groupMap = new WeakMap<HTMLElement, GroupData>();
 
 const getGroup = (el: HTMLElement, Alpine: Alpine) => {
   const root = Alpine.findClosest(el, groupMap.has.bind(groupMap));
-  return groupMap.get(root);
+  if (root instanceof HTMLElement) return groupMap.get(root);
 };
 
 const handleAccordionGroup: RootHandler<GroupData> = (
