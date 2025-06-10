@@ -5,7 +5,7 @@ export const screen: PluginCallback = (Alpine) => {
     const breakSize =
       typeof breakpoint === 'number'
         ? breakpoint
-        : breakpoints[breakpoint] ?? Number(breakpoint);
+        : (breakpoints[breakpoint] ?? Number(breakpoint));
     if (!breakSize) {
       console.error(
         `Invalid breakpoint: $screen(${JSON.stringify(breakpoint)})`,
