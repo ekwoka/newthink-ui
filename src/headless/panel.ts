@@ -9,6 +9,7 @@ type PanelState = {
 
 const handleRoot: RootHandler<PanelState> = (el, _, { Alpine }) => {
   const panelState = Alpine.reactive({
+    root: el,
     isOpen: false,
     open() {
       this.isOpen = true;
