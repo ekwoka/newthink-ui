@@ -34,19 +34,31 @@ export const tabs = headless(
     },
     tab: (tabGroup, el, _directive, { Alpine }) => {
       const tabIndex = tabGroup.tabs.push(el) - 1;
+      const activateCurrent = () => (tabGroup.activeTab = tabIndex);
       Alpine.bind(el, {
         ':tabindex': () => Number(tabIndex === tabGroup.activeTab) - 1,
         ':aria-selected': () => tabIndex === tabGroup.activeTab,
-        '@click': () => tabGroup.$focus.focus(el),
-        '@focus': () => (tabGroup.activeTab = tabIndex),
+        '@click': activateCurrent,
+        '@keydown.space.stop.prevent': activateCurrent,
+        '@keydown.enter.stop.prevent': activateCurrent,
       });
     },
     panel: (tabGroup, el, _directive, { Alpine }) => {
       const panelIndex = tabGroup.panels.push(el) - 1;
       Alpine.bind(el, {
-        'x-show': () => panelIndex === tabGroup.activeTab,
-        ':hidden': () => panelIndex !== tabGroup.activeTab,
+        ':tab-index': () => (panelIndex !== tabGroup.activeTab ? -1 : 0),
         ':aria-hidden': () => panelIndex !== tabGroup.activeTab,
+        ':class'() {
+          if (panelIndex === tabGroup.activeTab) {
+            return 'panel-current';
+          }
+          if (panelIndex > tabGroup.activeTab) {
+            return 'panel-next';
+          }
+          if (panelIndex < tabGroup.activeTab) {
+            return 'panel-previous';
+          }
+        },
       });
     },
   },
