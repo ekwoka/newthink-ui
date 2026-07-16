@@ -12,6 +12,7 @@ export const headless = <T extends Record<string, unknown>>(
 ): PluginCallback => {
   const headlessMap = new WeakMap<ElementWithXAttributes, T>();
   return (Alpine: Alpine) => {
+    Alpine.addRootSelector(() => `[${Alpine.prefixed(name)}]`);
     const getHeadlessComponentState = (
       el: ElementWithXAttributes,
     ): T | void => {

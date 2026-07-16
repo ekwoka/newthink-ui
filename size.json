@@ -1,10 +1,10 @@
 {
   "minified": {
-    "pretty": "63 kB",
-    "raw": 63029
+    "pretty": "63.1 kB",
+    "raw": 63135
   },
   "brotli": {
-    "pretty": "21.4 kB",
-    "raw": 21434
+    "pretty": "21.5 kB",
+    "raw": 21474
   }
 }

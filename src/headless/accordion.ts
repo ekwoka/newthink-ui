@@ -48,8 +48,10 @@ const handleAccordionGroup: RootHandler<GroupData> = (
   return groupData;
 };
 
-export const accordionGroup: PluginCallback = (Alpine) =>
+export const accordionGroup: PluginCallback = (Alpine) => {
+  Alpine.addRootSelector(() => `[${Alpine.prefixed('accordion-group')}]`);
   Alpine.directive('accordion-group', handleAccordionGroup);
+};
 
 type AccordionData = {
   active: boolean;

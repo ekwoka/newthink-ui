@@ -1,0 +1,5 @@
+allowBuilds:
+  esbuild: true
+useNodeVersion: 26.1.0
+overrides:
+  "esbuild": "$esbuild"
