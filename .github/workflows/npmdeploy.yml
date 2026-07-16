@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4.0.0
+      - uses: pnpm/action-setup@v6
         name: Install pnpm
         id: pnpm-install
         with:
-          version: latest
+          version: 10.33.2
           standalone: true
           run_install: false
 
