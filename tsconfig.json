@@ -8,8 +8,9 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "module": "es2022",
-    "moduleResolution": "node",
-    "outDir": "dist",
+    "moduleResolution": "bundler",
+    "rootDir": "./src",
+    "outDir": "./dist",
     "skipLibCheck": true,
     "strict": true,
     "target": "esNext"

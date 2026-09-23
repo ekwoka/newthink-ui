@@ -1,21 +1,31 @@
 import { headless } from './headless';
 
-export const tabs = headless(
+type TabGroup = {
+  activeTab: number;
+  tabs: HTMLElement[];
+  panels: HTMLElement[];
+  $focus: FocusMagic;
+  isSelected($el: HTMLElement): boolean;
+  activate(index: number): void;
+};
+
+export const tabs = headless<TabGroup>(
   'tabs',
   (_el, _directive, { Alpine, evaluate }) => {
-    const tabGroup: {
-      activeTab: number;
-      tabs: HTMLElement[];
-      panels: HTMLElement[];
-      $focus: FocusMagic;
-    } = Alpine.reactive({
+    const tabGroup = Alpine.reactive({
       activeTab: 0,
-      isSelected($el: HTMLElement): boolean {
-        return this.tabs[this.activeTab] === $el;
-      },
       tabs: [] as HTMLElement[],
       panels: [] as HTMLElement[],
       $focus: evaluate('$focus') as FocusMagic,
+      isSelected($el: HTMLElement): boolean {
+        return this.tabs[this.activeTab] === $el;
+      },
+      activate(index: number) {
+        this.activeTab = index;
+        Alpine.nextTick(() =>
+          this.panels[index]?.dispatchEvent(new CustomEvent('tab-activated')),
+        );
+      },
     });
     return tabGroup;
   },
@@ -34,10 +44,10 @@ export const tabs = headless(
     },
     tab: (tabGroup, el, _directive, { Alpine }) => {
       const tabIndex = tabGroup.tabs.push(el) - 1;
-      const activateCurrent = () => (tabGroup.activeTab = tabIndex);
+      const activateCurrent = () => tabGroup.activate(tabIndex);
       Alpine.bind(el, {
-        ':tabindex': () => Number(tabIndex === tabGroup.activeTab) - 1,
-        ':aria-selected': () => tabIndex === tabGroup.activeTab,
+        ':tabindex': () => Number(tabGroup.isSelected(el)) - 1,
+        ':aria-selected': () => tabGroup.isSelected(el),
         '@click': activateCurrent,
         '@keydown.space.stop.prevent': activateCurrent,
         '@keydown.enter.stop.prevent': activateCurrent,
@@ -46,8 +56,8 @@ export const tabs = headless(
     panel: (tabGroup, el, _directive, { Alpine }) => {
       const panelIndex = tabGroup.panels.push(el) - 1;
       Alpine.bind(el, {
-        ':tab-index': () => (panelIndex !== tabGroup.activeTab ? -1 : 0),
-        ':aria-hidden': () => panelIndex !== tabGroup.activeTab,
+        ':tab-index': () => Number(tabGroup.isSelected(el)) - 1,
+        ':aria-hidden': () => !tabGroup.isSelected(el),
         ':class'() {
           if (panelIndex === tabGroup.activeTab) {
             return 'panel-current';
