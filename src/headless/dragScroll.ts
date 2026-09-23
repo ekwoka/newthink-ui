@@ -1,4 +1,7 @@
-import Alpine, { PluginCallback } from 'alpinejs';
+import type { PluginCallback } from 'alpinejs';
+
+const nextTick = () =>
+  new Promise((res) => queueMicrotask(() => setTimeout(res)));
 
 const resizeCenterer = new ResizeObserver((entries) => {
   for (const entry of entries) {
@@ -9,7 +12,7 @@ const resizeCenterer = new ResizeObserver((entries) => {
 });
 
 const center = async (el: HTMLElement) => {
-  await Alpine.nextTick();
+  await nextTick();
   el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
   el.scrollTop = (el.scrollHeight - el.clientHeight) / 2;
 };
@@ -49,13 +52,13 @@ const registerDragScroll = (el: HTMLElement) => {
       '[&>*]:pointer-events-none',
     );
     el.classList.add('cursor-grab');
-    await Alpine.nextTick();
+    await nextTick();
     document.removeEventListener('click', preventStop, true);
-    cancelEvents.forEach((event) =>
+    cancelEvents.forEach((event) => {
       document.removeEventListener(event, upHandler, {
         capture: true,
-      }),
-    );
+      });
+    });
   };
   const downHandler = (e: PointerEvent | MouseEvent | TouchEvent) => {
     if (isTouch(e)) return; // skip touch inputs (allow native scrolling)
